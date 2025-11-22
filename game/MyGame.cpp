@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "MyGame.h"
 
-CMyGame::CMyGame(void) : 
-	m_sprite(400, 40, "rocket.bmp", CColor::Blue(), 0)	
+CMyGame::CMyGame(void)
 	// to initialise more sprites here use a comma-separated list
 {
 	// TODO: add initialisation here
@@ -11,6 +10,7 @@ CMyGame::CMyGame(void) :
 CMyGame::~CMyGame(void)
 {
 	// TODO: add destruction code here
+	
 }
 
 /////////////////////////////////////////////////////
@@ -27,10 +27,10 @@ void CMyGame::OnUpdate()
 void CMyGame::OnDraw(CGraphics* g)
 {
 	// TODO: add drawing code here
-	m_sprite.Draw(g);	// this will draw the sample rocket sprite
+	player.Draw(g);	// this will draw the sample rocket sprite
 
 	// this will print the game time
-	*g << bottom << left << "Time elapsed: " << timetext(GetTime());
+	//*g << bottom << left << "Time elapsed: " << timetext(GetTime());
 }
 
 /////////////////////////////////////////////////////
@@ -39,6 +39,7 @@ void CMyGame::OnDraw(CGraphics* g)
 // one time initialisation
 void CMyGame::OnInitialize()
 {
+	player.LoadImage("No_sword.png", "Idle",CColor::White());
 }
 
 // called when a new game is requested (e.g. when F2 pressed)
@@ -52,6 +53,8 @@ void CMyGame::OnDisplayMenu()
 // as a second phase after a menu or a welcome screen
 void CMyGame::OnStartGame()
 {
+	player.SetPos(300, 300);
+	player.SetImage("Idle");
 }
 
 // called when a new level started - first call for nLevel = 1
