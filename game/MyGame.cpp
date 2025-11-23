@@ -39,7 +39,7 @@ void CMyGame::OnDraw(CGraphics* g)
 // one time initialisation
 void CMyGame::OnInitialize()
 {
-	player.LoadImage("No_sword.png", "Idle",CColor::White());
+	player.LoadImage("No_sword_right.png", "Idle",CColor::White());
 }
 
 // called when a new game is requested (e.g. when F2 pressed)
