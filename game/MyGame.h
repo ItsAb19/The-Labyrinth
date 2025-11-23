@@ -6,17 +6,19 @@ class CMyGame : public CGame
 	CSprite m_sprite;	// Sample sprite
 	CSprite player;
 	CSprite wall;
+	CSpriteList wallList;
 
 public:
 	CMyGame(void);
 	~CMyGame(void);
 
+	
 	// Per-Frame Callback Funtions (must be implemented!)
 	virtual void OnUpdate();
 	virtual void OnDraw(CGraphics* g);
-
 	// Game Life Cycle
 	virtual void OnInitialize();
+	virtual void OnWalls();
 	virtual void OnDisplayMenu();
 	virtual void OnStartGame();
 	virtual void OnStartLevel(Sint16 nLevel);
