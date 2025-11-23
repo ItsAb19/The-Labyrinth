@@ -61,7 +61,11 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
+
+	player.SetSize(50, 60);
+
 	wall.SetPos(400, 400);
+
 }
 
 // called when a new level started - first call for nLevel = 1
