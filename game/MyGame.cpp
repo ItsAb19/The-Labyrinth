@@ -61,11 +61,11 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
-<<<<<<< HEAD
+
 	player.SetSize(50, 60);
-=======
+
 	wall.SetPos(400, 400);
->>>>>>> 004bb580c94437609f4c27426e3889ef5b81f897
+
 }
 
 // called when a new level started - first call for nLevel = 1
