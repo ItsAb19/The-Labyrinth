@@ -21,14 +21,14 @@ void CMyGame::OnUpdate()
 	Uint32 t = GetTime();
 
 	// TODO: add the game update code here
-<<<<<<< HEAD
+
 	m_sprite.Update(t);	// this will update the sample rocket sprite
 	for (CSprite* w : wallList)
 	{
 		w->Update(t);
 	}
 
-=======
+
 	player.Update(t);	// this will update the sample rocket sprite
 	if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
 	{
@@ -47,7 +47,7 @@ void CMyGame::OnUpdate()
 		player.SetVelocity(0, -100);
 	}
 	
->>>>>>> aa88594f666b94f1121444c44ffb5290e6ab502c
+
 }
 
 void CMyGame::OnDraw(CGraphics* g)
