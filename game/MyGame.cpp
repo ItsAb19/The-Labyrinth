@@ -21,12 +21,33 @@ void CMyGame::OnUpdate()
 	Uint32 t = GetTime();
 
 	// TODO: add the game update code here
+<<<<<<< HEAD
 	m_sprite.Update(t);	// this will update the sample rocket sprite
 	for (CSprite* w : wallList)
 	{
 		w->Update(t);
 	}
 
+=======
+	player.Update(t);	// this will update the sample rocket sprite
+	if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
+	{
+		player.SetVelocity(100, 0);
+	}
+	if (IsKeyDown(SDLK_a) || IsKeyDown(SDLK_RIGHT))
+	{
+		player.SetVelocity(-100, 0);
+	}
+	if (IsKeyDown(SDLK_w) || IsKeyDown(SDLK_UP))
+	{
+		player.SetVelocity(0, 100);
+	}
+	if (IsKeyDown(SDLK_s) || IsKeyDown(SDLK_DOWN))
+	{
+		player.SetVelocity(0, -100);
+	}
+	
+>>>>>>> aa88594f666b94f1121444c44ffb5290e6ab502c
 }
 
 void CMyGame::OnDraw(CGraphics* g)
@@ -97,8 +118,6 @@ void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
 
-	player.SetSize(50, 60);
-
 	wall.SetPos(400, 400);
 
 	OnWalls();
@@ -143,6 +162,22 @@ void CMyGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 
 void CMyGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode)
 {
+	if (sym == (SDLK_d) || IsKeyDown(SDLK_RIGHT))
+	{
+		player.SetVelocity(0, 0);
+	}
+	if (sym == (SDLK_a) || IsKeyDown(SDLK_LEFT))
+	{
+		player.SetVelocity(0, 0);
+	}
+	if (sym == (SDLK_w) || IsKeyDown(SDLK_UP))
+	{
+		player.SetVelocity(0, 0);
+	}
+	if (sym == (SDLK_s) || IsKeyDown(SDLK_RIGHT))
+	{
+		player.SetVelocity(0, 0);
+	}
 }
 
 
