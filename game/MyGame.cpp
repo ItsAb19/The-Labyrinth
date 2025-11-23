@@ -62,8 +62,6 @@ void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
 
-	player.SetSize(50, 60);
-
 	wall.SetPos(400, 400);
 
 }
@@ -98,6 +96,7 @@ void CMyGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 	if (sym == SDLK_a)
 	{
 		player.SetImage("Facing_left");
+		
 	}
 	if (sym == SDLK_d)
 	{
