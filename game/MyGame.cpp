@@ -28,6 +28,7 @@ void CMyGame::OnDraw(CGraphics* g)
 {
 	// TODO: add drawing code here
 	player.Draw(g);	// this will draw the sample rocket sprite
+	wall.Draw(g);
 
 	// this will print the game time
 	//*g << bottom << left << "Time elapsed: " << timetext(GetTime());
@@ -43,6 +44,9 @@ void CMyGame::OnInitialize()
 	player.LoadImage("No_sword_left.png", "Facing_left",CColor::White());
 
 	player.SetImage("Facing_right");
+
+	wall.LoadImage("Walls.png", "Brick", CColor::White());
+	wall.SetImage("Brick");
 }
 
 // called when a new game is requested (e.g. when F2 pressed)
@@ -57,6 +61,7 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
+	wall.SetPos(400, 400);
 }
 
 // called when a new level started - first call for nLevel = 1

@@ -5,6 +5,7 @@ class CMyGame : public CGame
 	// Define sprites and other instance variables here
 	CSprite m_sprite;	// Sample sprite
 	CSprite player;
+	CSprite wall;
 
 public:
 	CMyGame(void);
