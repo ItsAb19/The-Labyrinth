@@ -39,7 +39,10 @@ void CMyGame::OnDraw(CGraphics* g)
 // one time initialisation
 void CMyGame::OnInitialize()
 {
-	player.LoadImage("No_sword_right.png", "Idle",CColor::White());
+	player.LoadImage("No_sword_right.png", "Facing_right",CColor::White());
+	player.LoadImage("No_sword_left.png", "Facing_left",CColor::White());
+
+	player.SetImage("Facing_right");
 }
 
 // called when a new game is requested (e.g. when F2 pressed)
@@ -54,8 +57,6 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
-	
-	player.SetImage("Idle");
 }
 
 // called when a new level started - first call for nLevel = 1
@@ -84,6 +85,15 @@ void CMyGame::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		PauseGame();
 	if (sym == SDLK_F2)
 		NewGame();
+
+	if (sym == SDLK_a)
+	{
+		player.SetImage("Facing_left");
+	}
+	if (sym == SDLK_d)
+	{
+		player.SetImage("Facing_right");
+	}
 }
 
 void CMyGame::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode)
