@@ -54,6 +54,7 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
+	
 	player.SetImage("Idle");
 }
 
