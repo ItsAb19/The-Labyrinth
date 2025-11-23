@@ -48,7 +48,7 @@ void CMyGame::OnInitialize()
 	wall.LoadImage("Walls.png", "Brick", CColor::White());
 	wall.SetImage("Brick");
 }
-
+ 
 // called when a new game is requested (e.g. when F2 pressed)
 // use this function to prepare a menu or a welcome screen
 void CMyGame::OnDisplayMenu()
