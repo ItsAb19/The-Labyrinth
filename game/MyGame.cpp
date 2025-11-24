@@ -83,10 +83,9 @@ void CMyGame::OnWalls()
 
 	// Wall 0
 	CSprite* w0 = new CSprite();
-	w0->LoadImage("Walls.png", "Brick", CColor::White());
+	w0->LoadImage("Right Wall.png", "Brick", CColor::White());
 	w0->SetImage("Brick");      
-	w0->SetPosition(60, 15);
-	w0->SetSize(150, 50);
+	w0->SetPosition(60, 60);
 	wallList.push_back(w0);
 
 	// Wall 1
