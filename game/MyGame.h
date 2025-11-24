@@ -7,6 +7,7 @@ class CMyGame : public CGame
 	CSprite player;
 	CSprite wall;
 	CSpriteList wallList;
+	CSpriteList playerList;
 
 public:
 	CMyGame(void);
