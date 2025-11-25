@@ -38,4 +38,6 @@ public:
 	virtual void OnRButtonUp(Uint16 x,Uint16 y);
 	virtual void OnMButtonDown(Uint16 x,Uint16 y);
 	virtual void OnMButtonUp(Uint16 x,Uint16 y);
-};
+}
+
+;

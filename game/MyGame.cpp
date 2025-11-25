@@ -47,6 +47,30 @@ void CMyGame::OnUpdate()
 		player.SetVelocity(0, -100);
 	}
 
+	for (CSprite* w : wallList)
+	{
+		if (player.HitTest(w))
+		{
+			player.SetVelocity(0, 0);
+
+			if (IsKeyDown(SDLK_s) || IsKeyDown(SDLK_DOWN))
+			{
+				player.SetPos(player.GetX(), player.GetY() + 1);
+			}
+			if (IsKeyDown(SDLK_w) || IsKeyDown(SDLK_UP))
+			{
+				player.SetPos(player.GetX(), player.GetY() - 1);
+			}
+			if (IsKeyDown(SDLK_a) || IsKeyDown(SDLK_RIGHT))
+			{
+				player.SetPos(player.GetX() + 1, player.GetY());
+			}
+			if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
+			{
+				player.SetPos(player.GetX() - 1, player.GetY());
+			}
+		}
+	}
 	
 }
 
@@ -82,11 +106,33 @@ void CMyGame::OnWalls()
 	wallList.clear();
 
 	// Wall 0
-	CSprite* w0 = new CSprite();
-	w0->LoadImage("BigWalls.png", "Brick", CColor::White());
-	w0->SetImage("Brick");      
-	w0->SetPosition(400, 300);
-	wallList.push_back(w0);
+	CSprite* topwall = new CSprite();
+	topwall->LoadImage("Top_wall.png", "Brick", CColor::White());
+	topwall->SetImage("Brick");
+	topwall->SetPosition(400, 592);
+	topwall->SetProperty("tag", "top");
+	wallList.push_back(topwall);
+
+	CSprite* bottomwall = new CSprite();
+	bottomwall->LoadImage("Top_wall.png", "Brick", CColor::White());
+	bottomwall->SetImage("Brick");
+	bottomwall->SetPosition(400, 8);
+	bottomwall->SetProperty("tag", "bottom");
+	wallList.push_back(bottomwall);
+
+	CSprite* leftwall = new CSprite();
+	leftwall->LoadImage("Left_wall.png", "Brick", CColor::White());
+	leftwall->SetImage("Brick");
+	leftwall->SetPosition(8, 290);
+	leftwall->SetProperty("tag", "left");
+	wallList.push_back(leftwall);
+
+	CSprite* rightwall = new CSprite();
+	rightwall->LoadImage("Right_wall.png", "Brick", CColor::White());
+	rightwall->SetImage("Brick");
+	rightwall->SetPosition(792, 305);
+	rightwall->SetProperty("tag", "right");
+	wallList.push_back(rightwall);
 
 	CSprite* w1 = new CSprite();
 	w1->LoadImage("Right wall.png", "Brick", CColor::White());
@@ -189,175 +235,150 @@ void CMyGame::OnWalls()
 	w17->LoadImage("walls.png", "Brick", CColor::White());
 	w17->SetImage("Brick");
 	w17->SetPosition(535, 170);
-	w17->SetSize(70, 50);
 	wallList.push_back(w17);
 
 	CSprite* w18 = new CSprite();
 	w18->LoadImage("walls.png", "Brick", CColor::White());
 	w18->SetImage("Brick");
 	w18->SetPosition(480, 170);
-	w18->SetSize(70, 50);
 	wallList.push_back(w18);
 
 	CSprite* w19 = new CSprite();
 	w19->LoadImage("walls.png", "Brick", CColor::White());
 	w19->SetImage("Brick");
 	w19->SetPosition(350, 170);
-	w19->SetSize(70, 50);
 	wallList.push_back(w19);
 
 	CSprite* w20 = new CSprite();
 	w20->LoadImage("Right wall.png", "Brick", CColor::White());
 	w20->SetImage("Brick");
 	w20->SetPosition(470, 135);
-	w20->SetSize(70, 50);
 	wallList.push_back(w20);
 
 	CSprite* w21 = new CSprite();
 	w21->LoadImage("Right wall.png", "Brick", CColor::White());
 	w21->SetImage("Brick");
 	w21->SetPosition(470, 100);
-	w21->SetSize(70, 50);
 	wallList.push_back(w21);
 
 	CSprite* w22 = new CSprite();
 	w22->LoadImage("Right wall.png", "Brick", CColor::White());
 	w22->SetImage("Brick");
 	w22->SetPosition(364, 100);
-	w22->SetSize(70, 50);
 	wallList.push_back(w22);
 
 	CSprite* w23 = new CSprite();
 	w23->LoadImage("Right wall.png", "Brick", CColor::White());
 	w23->SetImage("Brick");
 	w23->SetPosition(364, 135);
-	w23->SetSize(70, 50);
 	wallList.push_back(w23);
 
 	CSprite* w24 = new CSprite();
 	w24->LoadImage("walls.png", "Brick", CColor::White());
 	w24->SetImage("Brick");
 	w24->SetPosition(350, 70);
-	w24->SetSize(70, 50);
 	wallList.push_back(w24);
 
 	CSprite* w25 = new CSprite();
 	w25->LoadImage("walls.png", "Brick", CColor::White());
 	w25->SetImage("Brick");
 	w25->SetPosition(300, 70);
-	w25->SetSize(70, 50);
 	wallList.push_back(w25);
 
 	CSprite* w26 = new CSprite();
 	w26->LoadImage("walls.png", "Brick", CColor::White());
 	w26->SetImage("Brick");
 	w26->SetPosition(250, 70);
-	w26->SetSize(70, 50);
 	wallList.push_back(w26);
 
 	CSprite* w27 = new CSprite();
 	w27->LoadImage("walls.png", "Brick", CColor::White());
 	w27->SetImage("Brick");
 	w27->SetPosition(200, 70);
-	w27->SetSize(70, 50);
 	wallList.push_back(w27);
 
 	CSprite* w28 = new CSprite();
 	w28->LoadImage("walls.png", "Brick", CColor::White());
 	w28->SetImage("Brick");
 	w28->SetPosition(150, 70);
-	w28->SetSize(70, 50);
 	wallList.push_back(w28);
 
 	CSprite* w29 = new CSprite();
 	w29->LoadImage("walls.png", "Brick", CColor::White());
 	w29->SetImage("Brick");
 	w29->SetPosition(100, 70);
-	w29->SetSize(70, 50);
 	wallList.push_back(w29);
 
 	CSprite* w30 = new CSprite();
 	w30->LoadImage("walls.png", "Brick", CColor::White());
 	w30->SetImage("Brick");
 	w30->SetPosition(48, 70);
-	w30->SetSize(70, 50);
 	wallList.push_back(w30);
 
 	CSprite* w31 = new CSprite();
 	w31->LoadImage("Right wall.png", "Brick", CColor::White());
 	w31->SetImage("Brick");
 	w31->SetPosition(100, 563);
-	w31->SetSize(70, 50);
 	wallList.push_back(w31);
 
 	CSprite* w32 = new CSprite();
 	w32->LoadImage("Right wall.png", "Brick", CColor::White());
 	w32->SetImage("Brick");
 	w32->SetPosition(100,523);
-	w32->SetSize(70, 50);
 	wallList.push_back(w32);
 
 	CSprite* w33 = new CSprite();
 	w33->LoadImage("Right wall.png", "Brick", CColor::White());
 	w33->SetImage("Brick");
 	w33->SetPosition(100, 483);
-	w33->SetSize(70, 50);
 	wallList.push_back(w33);
 
 	CSprite* w34 = new CSprite();
 	w34->LoadImage("Right wall.png", "Brick", CColor::White());
 	w34->SetImage("Brick");
 	w34->SetPosition(100, 443);
-	w34->SetSize(70, 50);
 	wallList.push_back(w34);
 
 	CSprite* w35 = new CSprite();
 	w35->LoadImage("Right wall.png", "Brick", CColor::White());
 	w35->SetImage("Brick");
 	w35->SetPosition(100, 403);
-	w35->SetSize(70, 50);
 	wallList.push_back(w35);
 
 	CSprite* w36 = new CSprite();
 	w36->LoadImage("Right wall.png", "Brick", CColor::White());
 	w36->SetImage("Brick");
 	w36->SetPosition(100, 363);
-	w36->SetSize(70, 50);
 	wallList.push_back(w36);
 
 	CSprite* w37 = new CSprite();
 	w37->LoadImage("Right wall.png", "Brick", CColor::White());
 	w37->SetImage("Brick");
 	w37->SetPosition(100, 323);
-	w37->SetSize(70, 50);
 	wallList.push_back(w37);
 
 	CSprite* w38 = new CSprite();
 	w38->LoadImage("Right wall.png", "Brick", CColor::White());
 	w38->SetImage("Brick");
 	w38->SetPosition(100, 283);
-	w38->SetSize(70, 50);
 	wallList.push_back(w38);
 
 	CSprite* w39 = new CSprite();
 	w39->LoadImage("Right wall.png", "Brick", CColor::White());
 	w39->SetImage("Brick");
 	w39->SetPosition(100, 243);
-	w39->SetSize(70, 50);
 	wallList.push_back(w39);
 
 	CSprite* w40 = new CSprite();
 	w40->LoadImage("Right wall.png", "Brick", CColor::White());
 	w40->SetImage("Brick");
 	w40->SetPosition(100, 203);
-	w40->SetSize(70, 50);
 	wallList.push_back(w40);
 
 	CSprite* w41 = new CSprite();
 	w41->LoadImage("walls.png", "Brick", CColor::White());
 	w41->SetImage("Brick");
 	w41->SetPosition(110, 171);
-	w41->SetSize(70, 50);
 	wallList.push_back(w41);
 }
 
