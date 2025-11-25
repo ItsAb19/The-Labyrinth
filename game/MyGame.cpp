@@ -30,6 +30,8 @@ void CMyGame::OnUpdate()
 
 
 	player.Update(t);	// this will update the sample rocket sprite
+	minotaur.Update(t);
+
 	if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
 	{
 		player.SetVelocity(100, 0);
@@ -78,6 +80,8 @@ void CMyGame::OnDraw(CGraphics* g)
 {
 	// TODO: add drawing code here
 	player.Draw(g);	// this will draw the sample rocket sprite
+	minotaur.Draw(g);
+
 	for (CSprite* w : wallList)
 	{
 		w->Draw(g);
@@ -99,6 +103,9 @@ void CMyGame::OnInitialize()
 
 	player.SetImage("Facing_right");
 	OnWalls();
+
+	minotaur.LoadImage("Minotaur.png", "idle", CColor::White());
+	minotaur.SetImage("idle");
 	
 }
 void CMyGame::OnWalls()
@@ -395,6 +402,7 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(300, 300);
+	minotaur.SetPos(600, 80);
 
 	wall.SetPos(400, 400);
 
