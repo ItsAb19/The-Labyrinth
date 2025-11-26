@@ -229,7 +229,7 @@ void CMyGame::OnUpdate()
 		else
 		{
 			minotaur.SetDirection(dir);
-			minotaur.SetSpeed(200);
+			minotaur.SetSpeed(50);
 			minotaur.SetRotation(minotaur.GetDirection() - 90);
 		}
 	}
