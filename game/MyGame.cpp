@@ -365,7 +365,22 @@ void CMyGame::OnUpdate()
 		minotaur.SetSpeed(0);
 	}
 
-	
+	float distanceThreshold = 50.0f; // adjust this to how close "close" means
+
+	// calculate the distance between player and minotaur
+	float dx = player.GetX() - minotaur.GetX();
+	float dy = player.GetY() - minotaur.GetY();
+	float distance = sqrt(dx * dx + dy * dy);
+
+	if (!isGameOver)
+	{
+		if (distance < distanceThreshold) // player is close enough
+		{
+			isGameOver = true;
+			// Optional: call a function to handle game over
+			// EndGame();
+		}
+	}
 
 
 }
