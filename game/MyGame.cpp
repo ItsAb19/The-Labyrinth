@@ -31,12 +31,14 @@ void CMyGame::OnUpdate()
 
 	player.Update(t);	// this will update the sample rocket sprite
 	minotaur.Update(t);
+	key.Update(t);
+	door.Update(t);
 
 	if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
 	{
 		player.SetVelocity(100, 0);
 	}
-	if (IsKeyDown(SDLK_a) || IsKeyDown(SDLK_RIGHT))
+	if (IsKeyDown(SDLK_a) || IsKeyDown(SDLK_LEFT))
 	{
 		player.SetVelocity(-100, 0);
 	}
@@ -67,12 +69,48 @@ void CMyGame::OnUpdate()
 			{
 				player.SetPos(player.GetX() + 1, player.GetY());
 			}
-			if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
+			if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_LEFT))
 			{
 				player.SetPos(player.GetX() - 1, player.GetY());
 			}
 		}
 	}
+
+	// --- KEY PICKUP ---
+	
+	if (!hasKey && player.HitTest(&key)) 
+	{ 
+		hasKey = true; 
+	}
+	// --- DOOR BLOCKING 
+	if (!hasKey && player.HitTest(&door))
+	{
+		player.SetVelocity(0, 0);
+
+		if (IsKeyDown(SDLK_s) || IsKeyDown(SDLK_DOWN))
+			player.SetPos(player.GetX(), player.GetY() + 1);
+
+		if (IsKeyDown(SDLK_w) || IsKeyDown(SDLK_UP))
+			player.SetPos(player.GetX(), player.GetY() - 1);
+
+		if (IsKeyDown(SDLK_a) || IsKeyDown(SDLK_LEFT))
+			player.SetPos(player.GetX() + 1, player.GetY());
+
+		if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
+			player.SetPos(player.GetX() - 1, player.GetY());
+	}
+
+	// --- DOOR UNLOCK ---
+	if (!doorOpen && hasKey && player.HitTest(&door))
+	{
+		doorOpen = true;
+		door.SetPos(-5000, -5000);  // remove door ONLY after you have key
+	}
+
+
+
+
+
 	
 }
 
@@ -81,11 +119,23 @@ void CMyGame::OnDraw(CGraphics* g)
 	// TODO: add drawing code here
 	player.Draw(g);	// this will draw the sample rocket sprite
 	minotaur.Draw(g);
+	door.Draw(g);
+	key.Draw(g);
 
 	for (CSprite* w : wallList)
 	{
 		w->Draw(g);
 	}
+
+	if (hasKey)
+	{
+		*g << top << left << color(CColor::Green()) << "You have the key!";
+	}
+	else
+	{
+		*g << top << left << color(CColor::Red()) << "Find the key";
+	}
+
 
 
 	// this will print the game time
@@ -106,8 +156,16 @@ void CMyGame::OnInitialize()
 
 	minotaur.LoadImage("Minotaur.png", "idle", CColor::White());
 	minotaur.SetImage("idle");
-	
-}
+
+	key.LoadImage("key.png", "gold", CColor::White());
+	key.SetImage("gold");
+	key.SetSize(50, 50);
+	key.SetPos(400, 400);
+
+	door.LoadImage("door.png", "door", CColor::White());
+	door.SetImage("door");
+	door.SetSize(40, 110);
+	}
 void CMyGame::OnWalls()
 {
 	wallList.clear();
@@ -384,9 +442,9 @@ void CMyGame::OnDisplayMenu()
 // as a second phase after a menu or a welcome screen
 void CMyGame::OnStartGame()
 {
-	player.SetPos(300, 300);
+	player.SetPos(780, 37);
 	minotaur.SetPos(600, 80);
-
+	door.SetPos(105, 50);
 	wall.SetPos(400, 400);
 
 	OnWalls();
