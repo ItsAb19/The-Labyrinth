@@ -3,52 +3,55 @@
 
 float Coords[][2] =
 {
-	{ 352, 160 },
-	{ 480, 160 },
-	{ 608, 288 },
-	{ 608, 96 },
-	{ 992, 288 },
-	{ 912, 96 },
-	{ 992, 160 },
-	{ 1184, 160 },
-	{ 992, 480 },
-	{ 1184, 480 },
-	{ 1184, 672 },
-	{ 800, 672 },
-	{ 736, 480 },
-	{ 544, 480 },
-	{ 512, 672 },
-	{ 96, 672 },
-	{ 96, 416 },
-	{ 352, 416 },
+	{  60,  60 },   // 0 top-left corner corridor
+	{ 380,  60 },   // 1 top mid left
+	{ 520,  60 },   // 2 top mid right
+	{ 740,  60 },   // 3 top right wall transition
+
+	{ 380, 170 },   // 4 left vertical junction
+	{ 520, 170 },   // 5 upper-middle vertical junction
+
+	{ 460, 250 },   // 6 key node
+
+	{ 240, 310 },   // 7 left-middle corridor
+	{ 520, 310 },   // 8 center corridor
+	{ 680, 310 },   // 9 right-middle corridor
+
+	{ 240, 420 },   // 10 lower-left corridor
+	{ 520, 420 },   // 11 lower-middle T
+	{ 680, 420 },   // 12 lower-right corridor
+
+	{ 260, 540 },   // 13 door corridor
+	{ 700, 540 },   // 14 lower-right exit corridor (enemy zone)
+	{ 760, 540 },   // 15 player start corridor
 };
 
 
-int Connections[][2] = {
+
+int Connections[][2] =
+{
 	{ 0, 1 },
-	{ 0, 17 },
 	{ 1, 2 },
-	{ 1, 3 },
 	{ 2, 3 },
-	{ 2, 4 },
-	{ 3, 5 },
-	{ 4, 5 },
-	{ 4, 6 },
-	{ 4, 8 },
-	{ 5, 6 },
-	{ 6, 7 },
-	{ 7, 9 },
-	{ 8, 9 },
-	{ 9, 10 },
-	{ 10, 11 },
+
+	{ 1, 4 },
+	{ 2, 5 },
+
+	{ 4, 7 },
+	{ 5, 6 },   // to key
+	{ 5, 8 },
+
+	{ 7, 10 },
+	{ 8, 11 },
+	{ 9, 12 },
+
+	{ 10, 13 },
 	{ 11, 12 },
-	{ 11, 14 },
-	{ 12, 13 },
-	{ 13, 14 },
+	{ 12, 14 },
+
 	{ 14, 15 },
-	{ 15, 16 },
-	{ 16, 17 },
 };
+
 CMyGame::CMyGame(void)
 	// to initialise more sprites here use a comma-separated list
 {
