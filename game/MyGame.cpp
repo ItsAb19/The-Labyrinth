@@ -206,7 +206,6 @@ void CMyGame::OnUpdate()
 		{
 			minotaur.SetSpeed(500);
 			minotaur.SetDirection(m_waypoints.front() - minotaur.GetPosition());
-			minotaur.SetRotation(minotaur.GetDirection() - 90);
 		}
 
 		// Passed the waypoint?
@@ -217,7 +216,6 @@ void CMyGame::OnUpdate()
 			m_waypoints.pop_front();
 			if (m_waypoints.empty())
 			minotaur.SetVelocity(0, 0);
-			minotaur.SetRotation(0);
 		}
 	}
 	// TODO: add the game update code here
@@ -233,6 +231,14 @@ void CMyGame::OnUpdate()
 	minotaur.Update(t);
 	key.Update(t);
 	door.Update(t);
+
+	if (!isGameOver && player.HitTest(&minotaur))
+	{
+		isGameOver = true;
+		player.SetVelocity(0, 0);
+		minotaur.SetVelocity(0, 0);
+		return;
+	}
 
 	if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
 	{
@@ -365,23 +371,7 @@ void CMyGame::OnUpdate()
 		minotaur.SetSpeed(0);
 	}
 
-	float distanceThreshold = 50.0f; // adjust this to how close "close" means
-
-	// calculate the distance between player and minotaur
-	float dx = player.GetX() - minotaur.GetX();
-	float dy = player.GetY() - minotaur.GetY();
-	float distance = sqrt(dx * dx + dy * dy);
-
-	if (!isGameOver)
-	{
-		if (distance < distanceThreshold) // player is close enough
-		{
-			isGameOver = true;
-			// Optional: call a function to handle game over
-			// EndGame();
-		}
-	}
-
+	
 
 }
 
@@ -502,8 +492,7 @@ void CMyGame::OnDraw(CGraphics* g)
 	}
 
 
-
-
+	
 
 	// this will print the game time
 	//*g << bottom << left << "Time elapsed: " << timetext(GetTime());
