@@ -25,12 +25,21 @@ class CMyGame : public CGame
 	CSprite m_sprite;	// Sample sprite
 	CSprite player;
 	CSprite wall;
+	CSprite door;
+	CSprite key;
 	CSprite minotaur;
 	CSpriteList wallList;
 	CSpriteList playerList;
+
 	vector<NODE> m_graph;
 	list<CVector> m_waypoints;
 	static char* m_tileLayout[12];	// Tiles layout
+
+
+	bool hasKey = false;
+	bool doorOpen = false;
+
+
 public:
 	CMyGame(void);
 	~CMyGame(void);
