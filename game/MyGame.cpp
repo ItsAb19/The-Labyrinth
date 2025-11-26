@@ -195,7 +195,7 @@ CMyGame::~CMyGame(void)
 void CMyGame::OnUpdate()
 {
 	if (isGameOver)
-		return;   
+		return;
 	Uint32 t = GetTime();
 
 	// NPC: follow the waypoints
@@ -215,7 +215,7 @@ void CMyGame::OnUpdate()
 			// Stop movement
 			m_waypoints.pop_front();
 			if (m_waypoints.empty())
-			minotaur.SetVelocity(0, 0);
+				minotaur.SetVelocity(0, 0);
 		}
 	}
 	// TODO: add the game update code here
@@ -232,13 +232,7 @@ void CMyGame::OnUpdate()
 	key.Update(t);
 	door.Update(t);
 
-	if (!isGameOver && player.HitTest(&minotaur))
-	{
-		isGameOver = true;
-		player.SetVelocity(0, 0);
-		minotaur.SetVelocity(0, 0);
-		return;
-	}
+
 
 	if (IsKeyDown(SDLK_d) || IsKeyDown(SDLK_RIGHT))
 	{
@@ -286,10 +280,10 @@ void CMyGame::OnUpdate()
 
 
 	// --- KEY PICKUP ---
-	
-	if (!hasKey && player.HitTest(&key)) 
-	{ 
-		hasKey = true; 
+
+	if (!hasKey && player.HitTest(&key))
+	{
+		hasKey = true;
 	}
 	// --- DOOR BLOCKING 
 	if (!hasKey && player.HitTest(&door))
@@ -349,7 +343,7 @@ void CMyGame::OnUpdate()
 		else
 		{
 			minotaur.SetDirection(dir);
-			minotaur.SetSpeed(50);
+			minotaur.SetSpeed(100);
 			minotaur.SetRotation(minotaur.GetDirection() - 90);
 		}
 	}
@@ -372,7 +366,6 @@ void CMyGame::OnUpdate()
 	}
 
 	
-
 }
 
 bool PathFind(vector<NODE>& graph, int nStart, int nGoal, vector<int>& path)
@@ -512,6 +505,8 @@ void CMyGame::OnInitialize()
 
 	minotaur.LoadImage("Minotaur.png", "idle", CColor::White());
 	minotaur.SetImage("idle");
+	minotaur.SetPos(600, 80);
+
 
 	key.LoadImage("key.png", "gold", CColor::White());
 	key.SetImage("gold");
@@ -799,7 +794,7 @@ void CMyGame::OnDisplayMenu()
 void CMyGame::OnStartGame()
 {
 	player.SetPos(780, 37);
-	minotaur.SetPos(600, 80);
+	
 	door.SetPos(105, 50);
 	wall.SetPos(400, 400);
 
