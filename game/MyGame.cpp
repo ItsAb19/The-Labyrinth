@@ -330,7 +330,10 @@ void CMyGame::OnDraw(CGraphics* g)
 	{
 		w->Draw(g);
 	}
-	
+	for (NODE n : m_graph)
+		for (CONNECTION c : n.conlist)
+			g->DrawLine(n.pos, m_graph[c.nEnd].pos, CColor::Black());
+
 
 	if (hasKey)
 	{
