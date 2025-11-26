@@ -38,6 +38,8 @@ class CMyGame : public CGame
 
 	bool hasKey = false;
 	bool doorOpen = false;
+	bool isGameOver = false;
+
 
 
 public:
