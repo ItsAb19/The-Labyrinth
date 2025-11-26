@@ -1,7 +1,26 @@
 #pragma once
 
+struct CONNECTION
+{
+	int nEnd;
+	float cost;
+};
+
+struct NODE
+{
+	CVector pos;
+	list<CONNECTION> conlist;
+
+	float costSoFar;
+	int nConnection;
+	bool open, closed;
+};
+
+bool PathFind(vector<NODE>& graph, int nStart, int nGoal, vector<int>& path);
+
 class CMyGame : public CGame
 {
+	
 	// Define sprites and other instance variables here
 	CSprite m_sprite;	// Sample sprite
 	CSprite player;
@@ -9,7 +28,9 @@ class CMyGame : public CGame
 	CSprite minotaur;
 	CSpriteList wallList;
 	CSpriteList playerList;
-
+	vector<NODE> m_graph;
+	list<CVector> m_waypoints;
+	static char* m_tileLayout[12];	// Tiles layout
 public:
 	CMyGame(void);
 	~CMyGame(void);

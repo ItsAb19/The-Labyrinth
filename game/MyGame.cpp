@@ -1,10 +1,71 @@
 ﻿#include "stdafx.h"
 #include "MyGame.h"
 
+float Coords[][2] =
+{
+	{ 352, 160 },
+	{ 480, 160 },
+	{ 608, 288 },
+	{ 608, 96 },
+	{ 992, 288 },
+	{ 912, 96 },
+	{ 992, 160 },
+	{ 1184, 160 },
+	{ 992, 480 },
+	{ 1184, 480 },
+	{ 1184, 672 },
+	{ 800, 672 },
+	{ 736, 480 },
+	{ 544, 480 },
+	{ 512, 672 },
+	{ 96, 672 },
+	{ 96, 416 },
+	{ 352, 416 },
+};
+
+
+int Connections[][2] = {
+	{ 0, 1 },
+	{ 0, 17 },
+	{ 1, 2 },
+	{ 1, 3 },
+	{ 2, 3 },
+	{ 2, 4 },
+	{ 3, 5 },
+	{ 4, 5 },
+	{ 4, 6 },
+	{ 4, 8 },
+	{ 5, 6 },
+	{ 6, 7 },
+	{ 7, 9 },
+	{ 8, 9 },
+	{ 9, 10 },
+	{ 10, 11 },
+	{ 11, 12 },
+	{ 11, 14 },
+	{ 12, 13 },
+	{ 13, 14 },
+	{ 14, 15 },
+	{ 15, 16 },
+	{ 16, 17 },
+};
 CMyGame::CMyGame(void)
 	// to initialise more sprites here use a comma-separated list
 {
-	// TODO: add initialisation here
+	for (float* coord : Coords)
+		m_graph.push_back(NODE{ CVector(coord[0], coord[1]) });
+
+	for (int* conn : Connections)
+	{
+		int ind1 = conn[0];
+		int ind2 = conn[1];
+		NODE& node1 = m_graph[ind1];
+		NODE& node2 = m_graph[ind2];
+		float dist = Distance(node1.pos, node2.pos);
+
+		node1.conlist.push_back(CONNECTION{ ind2, dist });
+		node2.conlist.push_back(CONNECTION{ ind1, dist });
+	}
 }
 
 CMyGame::~CMyGame(void)
@@ -20,6 +81,28 @@ void CMyGame::OnUpdate()
 {
 	Uint32 t = GetTime();
 
+	// NPC: follow the waypoints
+	if (!m_waypoints.empty())
+	{
+		// If NPC not moving, start moving to the first waypoint
+		if (minotaur.GetSpeed() < 1)
+		{
+			minotaur.SetSpeed(500);
+			minotaur.SetDirection(m_waypoints.front() - minotaur.GetPosition());
+			minotaur.SetRotation(minotaur.GetDirection() - 90);
+		}
+
+		// Passed the waypoint?
+		CVector v = m_waypoints.front() - minotaur.GetPosition();
+		if (Dot(minotaur.GetVelocity(), v) < 0)
+		{
+			// Stop movement
+			m_waypoints.pop_front();
+			if (m_waypoints.empty())
+			minotaur.SetVelocity(0, 0);
+			minotaur.SetRotation(0);
+		}
+	}
 	// TODO: add the game update code here
 
 	m_sprite.Update(t);	// this will update the sample rocket sprite
@@ -73,9 +156,131 @@ void CMyGame::OnUpdate()
 			}
 		}
 	}
-	
-}
+	CVector playerPos(player.GetX(), player.GetY());
 
+	// Only recalc path if Minotaur has no waypoints
+	if (m_waypoints.empty())
+	{
+		int nStart = min_element(m_graph.begin(), m_graph.end(),
+			[this](NODE& n1, NODE& n2) { return Distance(n1.pos, minotaur.GetPos()) < Distance(n2.pos, minotaur.GetPos()); }) - m_graph.begin();
+
+		int nGoal = min_element(m_graph.begin(), m_graph.end(),
+			[playerPos](NODE& n1, NODE& n2) { return Distance(n1.pos, playerPos) < Distance(n2.pos, playerPos); }) - m_graph.begin();
+
+		vector<int> path;
+		if (PathFind(m_graph, nStart, nGoal, path))
+		{
+			for (int i : path)
+				m_waypoints.push_back(m_graph[i].pos);
+
+			m_waypoints.push_back(playerPos); // final destination
+		}
+	}
+
+	// --- Minotaur Movement ---
+	if (!m_waypoints.empty())
+	{
+		CVector dir = m_waypoints.front() - minotaur.GetPos();
+		float dist = dir.Length();
+
+		if (dist < 5.f) // reached waypoint
+		{
+			m_waypoints.pop_front();
+		}
+		else
+		{
+			minotaur.SetDirection(dir);
+			minotaur.SetSpeed(200);
+			minotaur.SetRotation(minotaur.GetDirection() - 90);
+		}
+	}
+	else
+	{
+		minotaur.SetVelocity(0, 0);
+	}
+}
+bool PathFind(vector<NODE>& graph, int nStart, int nGoal, vector<int>& path)
+{
+	// ----- INITIALISE ALL NODES -----
+	for (NODE& n : graph)
+	{
+		n.costSoFar = INFINITY;
+		n.nConnection = -1;
+		n.open = false;
+		n.closed = false;
+	}
+
+	// ----- START NODE -----
+	graph[nStart].costSoFar = 0;
+	graph[nStart].open = true;
+
+	// OPEN LIST = list of node indices
+	vector<int> openList;
+	openList.push_back(nStart);
+
+	// ----- MAIN LOOP -----
+	while (!openList.empty())
+	{
+		// find node in open list with smallest cost
+		int current = openList[0];
+		for (int n : openList)
+			if (graph[n].costSoFar < graph[current].costSoFar)
+				current = n;
+
+		// goal reached
+		if (current == nGoal)
+			break;
+
+		// explore neighbours
+		for (const CONNECTION& c : graph[current].conlist)
+		{
+			int next = c.nEnd;
+			float newCost = graph[current].costSoFar + c.cost;
+
+			// if next is closed AND its saved cost is better → skip
+			if (graph[next].closed && graph[next].costSoFar <= newCost)
+				continue;
+
+			// found a better path?
+			if (newCost < graph[next].costSoFar)
+			{
+				graph[next].costSoFar = newCost;
+				graph[next].nConnection = current;
+
+				// add to open list if not already added
+				if (!graph[next].open)
+				{
+					graph[next].open = true;
+					openList.push_back(next);
+				}
+			}
+		}
+
+		// close current
+		graph[current].closed = true;
+		graph[current].open = false;
+
+		// remove from open list
+		openList.erase(remove(openList.begin(), openList.end(), current), openList.end());
+	}
+
+	// ----- NO PATH FOUND -----
+	if (graph[nGoal].nConnection == -1)
+		return false;
+
+	// ----- BUILD FINAL PATH -----
+	path.clear();
+
+	int current = nGoal;
+	while (current != -1)
+	{
+		path.push_back(current);
+		current = graph[current].nConnection;
+	}
+
+	reverse(path.begin(), path.end());
+	return true;
+}
 void CMyGame::OnDraw(CGraphics* g)
 {
 	// TODO: add drawing code here
@@ -86,6 +291,10 @@ void CMyGame::OnDraw(CGraphics* g)
 	{
 		w->Draw(g);
 	}
+	for (NODE n : m_graph)
+		for (CONNECTION c : n.conlist)
+			g->DrawLine(n.pos, m_graph[c.nEnd].pos, CColor::Black());
+
 
 
 	// this will print the game time
